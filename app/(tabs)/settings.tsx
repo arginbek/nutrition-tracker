@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Alert } from 'react-native';
+import * as Sharing from 'expo-sharing';
+import * as DocumentPicker from 'expo-document-picker';
+import { File, Paths } from 'expo-file-system';
 import { useApp } from '../../state/AppContext';
-import { setTarget, getSetting, setSetting } from '../../db/queries';
+import { setTarget, getSetting, setSetting, dumpTables, loadTables } from '../../db/queries';
+import { buildBackup, parseBackup, countRows } from '../../lib/backup';
 import { Field } from '../../components/ui/Field';
 import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
@@ -45,6 +49,46 @@ export default function Settings() {
     await setSetting('anthropic_api_key', anthropicKey.trim());
     setAiSaved(true);
     setTimeout(() => setAiSaved(false), 1500);
+  };
+
+  const exportBackup = async () => {
+    try {
+      const data = await dumpTables();
+      const json = buildBackup(data, new Date().toISOString());
+      const f = new File(Paths.cache, 'nutrition-backup.json');
+      f.write(json);
+      const uri = f.uri;
+      if (!(await Sharing.isAvailableAsync())) {
+        Alert.alert('Sharing unavailable', 'Cannot open the share sheet on this device.');
+        return;
+      }
+      await Sharing.shareAsync(uri, { mimeType: 'application/json', UTI: 'public.json', dialogTitle: 'Nutrition backup' });
+    } catch {
+      Alert.alert('Export failed', 'Could not create the backup.');
+    }
+  };
+
+  const restoreBackup = async () => {
+    try {
+      const res = await DocumentPicker.getDocumentAsync({ type: 'application/json', copyToCacheDirectory: true });
+      if (res.canceled || !res.assets?.[0]?.uri) return;
+      const text = await new File(res.assets[0].uri).text();
+      const backup = parseBackup(text);
+      if (!backup) {
+        Alert.alert('Invalid file', 'That is not a Nutrition backup file.');
+        return;
+      }
+      const n = countRows(backup.data);
+      Alert.alert('Restore backup?', `Merge ${n} item${n === 1 ? '' : 's'} from this backup into your data?`, [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Restore', onPress: async () => {
+          const imported = await loadTables(backup.data);
+          Alert.alert('Restored', `Merged ${imported} item${imported === 1 ? '' : 's'}.`);
+        } },
+      ]);
+    } catch {
+      Alert.alert('Restore failed', 'Could not read that backup file.');
+    }
   };
 
   const labelled = (label: string, value: string, onChange: (s: string) => void) => (
@@ -92,6 +136,14 @@ export default function Settings() {
           secureTextEntry
         />
         <Button variant="secondary" onPress={saveAiKey}>{aiSaved ? 'Saved ✓' : 'Save key'}</Button>
+      </Card>
+      <Card style={{ gap: spacing.md }}>
+        <SectionLabel>Backup & Restore</SectionLabel>
+        <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.caption }}>
+          Export saves all your data (not your API keys) to a file you can store in Files or iCloud. Restore merges a backup back in.
+        </Text>
+        <Button variant="secondary" onPress={exportBackup}>Export backup</Button>
+        <Button variant="secondary" onPress={restoreBackup}>Restore from backup</Button>
       </Card>
     </ScrollView>
   );
