@@ -40,7 +40,15 @@ const clamp0 = (n: unknown): number => {
 
 export function parseItems(jsonText: string): EstimatedItem[] {
   try {
-    const data = JSON.parse(jsonText) as { items?: unknown };
+    // Strip ```json ... ``` fences if present, then extract the JSON object/array.
+    let text = jsonText.trim();
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+    if (!text.startsWith('{') && !text.startsWith('[')) {
+      const start = text.indexOf('{');
+      const end = text.lastIndexOf('}');
+      if (start !== -1 && end !== -1) text = text.slice(start, end + 1);
+    }
+    const data = JSON.parse(text) as { items?: unknown };
     if (!Array.isArray(data.items)) return [];
     return data.items
       .filter((it): it is Record<string, unknown> => !!it && typeof it === 'object')

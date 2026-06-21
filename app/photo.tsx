@@ -14,12 +14,14 @@ import { colors, radii, spacing, type } from '../theme';
 
 type Phase = 'capture' | 'analyzing' | 'review';
 
+interface Row { id: string; base: EstimatedItem; name: string; gramsText: string; }
+
 export default function Photo() {
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
   const { selectedDate } = useApp();
   const [phase, setPhase] = useState<Phase>('capture');
-  const [items, setItems] = useState<EstimatedItem[]>([]);
+  const [rows, setRows] = useState<Row[]>([]);
   const [meal, setMeal] = useState<MealId>('lunch');
 
   if (!permission) return <View style={{ flex: 1, backgroundColor: colors.canvas }} />;
@@ -49,7 +51,10 @@ export default function Photo() {
     setPhase('analyzing');
     const result = await analyzePhoto(pic.base64, key);
     if (result.ok) {
-      setItems(result.items);
+      setRows(result.items.map((it, i) => ({
+        id: `r_${i}_${Math.random().toString(36).slice(2, 7)}`,
+        base: it, name: it.name, gramsText: String(it.grams),
+      })));
       setPhase('review');
     } else {
       const msg = {
@@ -62,20 +67,24 @@ export default function Photo() {
     }
   };
 
-  const setGrams = (i: number, grams: string) => {
-    const n = Number(grams) || 0;
-    setItems(prev => prev.map((it, idx) => idx === i ? scaleItem(it, n) : it));
+  // Always scale from base; blank/invalid grams falls back to base grams (never zero).
+  const scaledOf = (r: Row): EstimatedItem => {
+    const n = Number(r.gramsText);
+    const grams = Number.isFinite(n) && n > 0 ? n : r.base.grams;
+    return { ...scaleItem(r.base, grams), name: r.name };
   };
-  const setName = (i: number, name: string) => {
-    setItems(prev => prev.map((it, idx) => idx === i ? { ...it, name } : it));
-  };
-  const removeItem = (i: number) => setItems(prev => prev.filter((_, idx) => idx !== i));
+
+  const setGrams = (id: string, text: string) =>
+    setRows(prev => prev.map(r => r.id === id ? { ...r, gramsText: text } : r));
+  const setName = (id: string, text: string) =>
+    setRows(prev => prev.map(r => r.id === id ? { ...r, name: text } : r));
+  const removeRow = (id: string) => setRows(prev => prev.filter(r => r.id !== id));
 
   const logAll = async () => {
-    for (let i = 0; i < items.length; i++) {
-      const it = items[i];
+    for (const r of rows) {
+      const it = scaledOf(r);
       const entry: LogEntry = {
-        id: `log_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 7)}`,
+        id: `log_${Date.now()}_${r.id}_${Math.random().toString(36).slice(2, 7)}`,
         date: selectedDate, meal, foodId: null, nameSnapshot: it.name,
         servingLabel: `${it.grams} g`, quantity: 1,
         computed: { ...EMPTY_NUTRIENTS, kcal: it.kcal, protein: it.protein, carbs: it.carbs, fat: it.fat },
@@ -131,29 +140,32 @@ export default function Photo() {
         </View>
       </View>
 
-      {items.map((it, i) => (
-        <Card key={i} style={{ gap: spacing.sm }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-            <View style={{ flex: 1 }}><Field value={it.name} onChangeText={t => setName(i, t)} /></View>
-            <Pressable onPress={() => removeItem(i)} hitSlop={10}>
-              <Text style={{ color: colors.danger, fontFamily: type.familyMedium, fontSize: type.bodySm }}>Remove</Text>
-            </Pressable>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
-            <View style={{ width: 110 }}>
-              <Field value={String(it.grams)} onChangeText={t => setGrams(i, t)} keyboardType="numeric" placeholder="grams" />
+      {rows.map(r => {
+        const s = scaledOf(r);
+        return (
+          <Card key={r.id} style={{ gap: spacing.sm }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+              <View style={{ flex: 1 }}><Field value={r.name} onChangeText={t => setName(r.id, t)} /></View>
+              <Pressable onPress={() => removeRow(r.id)} hitSlop={10}>
+                <Text style={{ color: colors.danger, fontFamily: type.familyMedium, fontSize: type.bodySm }}>Remove</Text>
+              </Pressable>
             </View>
-            <Text style={{ color: colors.textSecondary, fontFamily: type.family, fontSize: type.bodySm }}>
-              {it.kcal} kcal · {it.protein}P {it.carbs}C {it.fat}F
-            </Text>
-          </View>
-        </Card>
-      ))}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+              <View style={{ width: 110 }}>
+                <Field value={r.gramsText} onChangeText={t => setGrams(r.id, t)} keyboardType="numeric" placeholder="grams" />
+              </View>
+              <Text style={{ color: colors.textSecondary, fontFamily: type.family, fontSize: type.bodySm }}>
+                {s.kcal} kcal · {s.protein}P {s.carbs}C {s.fat}F
+              </Text>
+            </View>
+          </Card>
+        );
+      })}
 
-      {items.length === 0 ? (
+      {rows.length === 0 ? (
         <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.bodySm }}>No items left.</Text>
       ) : (
-        <Button onPress={logAll}>Log {items.length} item{items.length === 1 ? '' : 's'} to {MEAL_LABELS[meal]}</Button>
+        <Button onPress={logAll}>Log {rows.length} item{rows.length === 1 ? '' : 's'} to {MEAL_LABELS[meal]}</Button>
       )}
       <Button variant="secondary" onPress={() => setPhase('capture')}>Retake</Button>
     </ScrollView>

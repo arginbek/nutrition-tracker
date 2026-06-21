@@ -17,6 +17,15 @@ describe('parseItems', () => {
   it('returns [] when items missing', () => {
     expect(parseItems(JSON.stringify({ foo: 1 }))).toEqual([]);
   });
+  it('parses a response wrapped in ```json fences', () => {
+    const fenced = '```json\n' + JSON.stringify({ items: [
+      { name: 'Banana', grams: 120, kcal: 107, protein: 1.3, carbs: 27, fat: 0.4 },
+    ] }) + '\n```';
+    const items = parseItems(fenced);
+    expect(items).toHaveLength(1);
+    expect(items[0].name).toBe('Banana');
+    expect(items[0].grams).toBe(120);
+  });
 });
 
 describe('scaleItem', () => {
