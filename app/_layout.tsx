@@ -23,12 +23,10 @@ export default function RootLayout() {
     <AppProvider>
       <>
         <StatusBar style="light" />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.canvas },
-          }}
-        />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="log/[foodId]" options={{ presentation: 'modal' }} />
+        </Stack>
       </>
     </AppProvider>
   );
