@@ -1,6 +1,7 @@
 import { getDb } from './index';
 import { Food, LogEntry, MealId, Nutrients, ServingOption, Target, Recipe, RecipeComponent, RecipeComponentInput, WeightEntry } from '../lib/types';
 import { recentFoodIds, frequentFoodIds } from '../lib/ranking';
+import { BackupTables, BackupRow } from '../lib/backup';
 
 interface FoodRow {
   id: string; name: string; brand: string | null; source: string;
@@ -228,4 +229,71 @@ export async function getLatestWeight(): Promise<WeightEntry | null> {
 
 export async function deleteWeight(date: string): Promise<void> {
   await getDb().runAsync('DELETE FROM weight_entries WHERE date = ?', [date]);
+}
+
+// ---- Backup and restore ----
+export async function dumpTables(): Promise<BackupTables> {
+  const db = getDb();
+  const all = async (sql: string, args: any[] = []) =>
+    (await db.getAllAsync<BackupRow>(sql, args)) as BackupRow[];
+  return {
+    foods: await all('SELECT * FROM foods'),
+    log_entries: await all('SELECT * FROM log_entries'),
+    recipes: await all('SELECT * FROM recipes'),
+    recipe_components: await all('SELECT * FROM recipe_components'),
+    weight_entries: await all('SELECT * FROM weight_entries'),
+    targets: await all('SELECT * FROM targets'),
+    favorites: await all('SELECT * FROM favorites'),
+    settings: await all(
+      "SELECT key, value FROM settings WHERE key NOT IN ('anthropic_api_key', 'usda_api_key')",
+    ),
+  };
+}
+
+// Each importer uses INSERT OR REPLACE by primary key (idempotent re-import).
+// Column lists are fixed (not derived from the file) to avoid SQL injection via keys.
+async function importRows(
+  table: string, cols: string[], rows: BackupRow[],
+): Promise<number> {
+  if (rows.length === 0) return 0;
+  const db = getDb();
+  const placeholders = cols.map(() => '?').join(', ');
+  let n = 0;
+  for (const row of rows) {
+    await db.runAsync(
+      `INSERT OR REPLACE INTO ${table} (${cols.join(', ')}) VALUES (${placeholders})`,
+      cols.map(c => (row[c] ?? null) as string | number | null),
+    );
+    n++;
+  }
+  return n;
+}
+
+export async function loadTables(data: BackupTables): Promise<number> {
+  const db = getDb();
+  let imported = 0;
+  await db.withTransactionAsync(async () => {
+    imported += await importRows('foods', ['id', 'name', 'brand', 'source', 'barcode', 'per100g', 'serving_options'], data.foods);
+    imported += await importRows('log_entries', ['id', 'date', 'meal', 'food_id', 'name_snapshot', 'serving_label', 'quantity', 'computed'], data.log_entries);
+    imported += await importRows('recipes', ['id', 'name'], data.recipes);
+    imported += await importRows('recipe_components', ['id', 'recipe_id', 'food_id', 'serving_label', 'quantity'], data.recipe_components);
+    imported += await importRows('weight_entries', ['id', 'date', 'weight', 'unit'], data.weight_entries);
+    imported += await importRows('targets', ['id', 'daily_kcal', 'protein_g', 'carbs_g', 'fat_g'], data.targets);
+    imported += await importRows('settings', ['key', 'value'], data.settings);
+    // favorites: dedupe by (ref_type, ref_id)
+    for (const row of data.favorites) {
+      const existing = await db.getFirstAsync<{ id: string }>(
+        'SELECT id FROM favorites WHERE ref_type = ? AND ref_id = ?',
+        [(row.ref_type ?? '') as string, (row.ref_id ?? '') as string],
+      );
+      if (!existing) {
+        await db.runAsync(
+          'INSERT OR REPLACE INTO favorites (id, ref_type, ref_id) VALUES (?, ?, ?)',
+          [(row.id ?? `fav_${row.ref_type}_${row.ref_id}`) as string, (row.ref_type ?? '') as string, (row.ref_id ?? '') as string],
+        );
+        imported++;
+      }
+    }
+  });
+  return imported;
 }
