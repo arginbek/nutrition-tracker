@@ -1,0 +1,41 @@
+{
+  "foods": [
+    {
+      "fdcId": 173944,
+      "description": "Nuts, pistachio nuts, raw",
+      "dataType": "SR Legacy",
+      "brandName": null,
+      "gtinUpc": null,
+      "servingSize": null,
+      "servingSizeUnit": null,
+      "householdServingFullText": null,
+      "foodNutrients": [
+        { "nutrientNumber": "208", "unitName": "KCAL", "value": 560 },
+        { "nutrientNumber": "203", "unitName": "G", "value": 20.2 },
+        { "nutrientNumber": "204", "unitName": "G", "value": 45.3 },
+        { "nutrientNumber": "205", "unitName": "G", "value": 27.2 },
+        { "nutrientNumber": "291", "unitName": "G", "value": 10.6 },
+        { "nutrientNumber": "269", "unitName": "G", "value": 7.7 },
+        { "nutrientNumber": "307", "unitName": "MG", "value": 1 },
+        { "nutrientNumber": "606", "unitName": "G", "value": 5.6 }
+      ]
+    },
+    {
+      "fdcId": 2341752,
+      "description": "GREEK YOGURT, PLAIN",
+      "dataType": "Branded",
+      "brandName": "CHOBANI",
+      "gtinUpc": "894700010045",
+      "servingSize": 170,
+      "servingSizeUnit": "g",
+      "householdServingFullText": "1 container",
+      "foodNutrients": [
+        { "nutrientNumber": "208", "unitName": "KCAL", "value": 59 },
+        { "nutrientNumber": "203", "unitName": "G", "value": 10 },
+        { "nutrientNumber": "204", "unitName": "G", "value": 0 },
+        { "nutrientNumber": "205", "unitName": "G", "value": 3.5 },
+        { "nutrientNumber": "307", "unitName": "MG", "value": 36 }
+      ]
+    }
+  ]
+}
