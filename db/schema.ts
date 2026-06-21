@@ -35,6 +35,25 @@ CREATE TABLE IF NOT EXISTS targets (
   carbs_g INTEGER NOT NULL,
   fat_g INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS recipes (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS recipe_components (
+  id TEXT PRIMARY KEY,
+  recipe_id TEXT NOT NULL,
+  food_id TEXT NOT NULL,
+  serving_label TEXT NOT NULL,
+  quantity REAL NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_rc_recipe ON recipe_components(recipe_id);
 `;
 
 export const DEFAULT_TARGET = {

@@ -39,3 +39,23 @@ export interface Target {
 export const EMPTY_NUTRIENTS: Nutrients = {
   kcal: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0, satFat: 0,
 };
+
+export interface Recipe {
+  id: string;
+  name: string;
+}
+
+export interface RecipeComponent {
+  id: string;
+  recipeId: string;
+  foodId: string;
+  servingLabel: string;
+  quantity: number;
+}
+
+/** A component as supplied when creating a recipe (id is generated on insert). */
+export interface RecipeComponentInput {
+  foodId: string;
+  servingLabel: string;
+  quantity: number;
+}

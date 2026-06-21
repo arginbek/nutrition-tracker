@@ -1,5 +1,5 @@
 import { getDb } from './index';
-import { Food, LogEntry, MealId, Nutrients, ServingOption, Target } from '../lib/types';
+import { Food, LogEntry, MealId, Nutrients, ServingOption, Target, Recipe, RecipeComponent, RecipeComponentInput } from '../lib/types';
 import { recentFoodIds, frequentFoodIds } from '../lib/ranking';
 
 interface FoodRow {
@@ -128,4 +128,78 @@ export async function toggleFavorite(refType: 'food' | 'recipe', refId: string):
       [`fav_${Date.now()}_${refId}`, refType, refId],
     );
   }
+}
+
+// ---- Settings (key-value) ----
+export async function getSetting(key: string): Promise<string | null> {
+  const r = await getDb().getFirstAsync<{ value: string }>(
+    'SELECT value FROM settings WHERE key = ?', [key],
+  );
+  return r ? r.value : null;
+}
+
+export async function setSetting(key: string, value: string): Promise<void> {
+  await getDb().runAsync(
+    'INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)', [key, value],
+  );
+}
+
+// ---- Custom foods ----
+export async function getCustomFoods(): Promise<Food[]> {
+  const rows = await getDb().getAllAsync<FoodRow>(
+    `SELECT * FROM foods WHERE source = 'custom' ORDER BY name`,
+  );
+  return rows.map(toFood);
+}
+
+// ---- Recipes ----
+export async function createRecipe(name: string, components: RecipeComponentInput[]): Promise<string> {
+  const id = `recipe_${Date.now()}`;
+  await getDb().runAsync('INSERT INTO recipes (id, name) VALUES (?, ?)', [id, name]);
+  for (let i = 0; i < components.length; i++) {
+    const c = components[i];
+    await getDb().runAsync(
+      `INSERT INTO recipe_components (id, recipe_id, food_id, serving_label, quantity)
+       VALUES (?, ?, ?, ?, ?)`,
+      [`rc_${Date.now()}_${i}`, id, c.foodId, c.servingLabel, c.quantity],
+    );
+  }
+  return id;
+}
+
+export async function getRecipes(): Promise<Recipe[]> {
+  return getDb().getAllAsync<Recipe>('SELECT id, name FROM recipes ORDER BY name');
+}
+
+export async function getRecipeComponents(recipeId: string): Promise<RecipeComponent[]> {
+  const rows = await getDb().getAllAsync<{
+    id: string; recipe_id: string; food_id: string; serving_label: string; quantity: number;
+  }>('SELECT * FROM recipe_components WHERE recipe_id = ?', [recipeId]);
+  return rows.map(r => ({
+    id: r.id, recipeId: r.recipe_id, foodId: r.food_id,
+    servingLabel: r.serving_label, quantity: r.quantity,
+  }));
+}
+
+export async function deleteRecipe(id: string): Promise<void> {
+  await getDb().runAsync('DELETE FROM recipe_components WHERE recipe_id = ?', [id]);
+  await getDb().runAsync('DELETE FROM recipes WHERE id = ?', [id]);
+}
+
+// ---- Copy a day's entries to another date ----
+export async function copyDay(fromDate: string, toDate: string): Promise<number> {
+  const entries = await getEntriesForDate(fromDate);
+  for (let i = 0; i < entries.length; i++) {
+    const e = entries[i];
+    await insertLogEntry({ ...e, id: `log_${Date.now()}_${i}`, date: toDate });
+  }
+  return entries.length;
+}
+
+// ---- History: distinct logged days with total kcal ----
+export async function getLoggedDates(): Promise<{ date: string; kcal: number }[]> {
+  return getDb().getAllAsync<{ date: string; kcal: number }>(
+    `SELECT date, CAST(SUM(json_extract(computed, '$.kcal')) AS INTEGER) AS kcal
+     FROM log_entries GROUP BY date ORDER BY date DESC`,
+  );
 }
