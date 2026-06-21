@@ -1,0 +1,416 @@
+[
+  {
+    "id": "seed_banana",
+    "name": "Banana",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 89, "protein": 1.1, "carbs": 22.8, "fat": 0.3, "fiber": 2.6, "sugar": 12.2, "sodium": 1, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 medium", "grams": 118 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_rice_cooked",
+    "name": "White rice, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 130, "protein": 2.7, "carbs": 28.0, "fat": 0.3, "fiber": 0.4, "sugar": 0.1, "sodium": 1, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup", "grams": 158 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_egg",
+    "name": "Egg, large",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 143, "protein": 12.6, "carbs": 0.7, "fat": 9.5, "fiber": 0.0, "sugar": 0.4, "sodium": 142, "satFat": 3.1 },
+    "servingOptions": [ { "label": "1 large", "grams": 50 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_chicken_breast",
+    "name": "Chicken breast, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 165, "protein": 31.0, "carbs": 0.0, "fat": 3.6, "fiber": 0.0, "sugar": 0.0, "sodium": 74, "satFat": 1.0 },
+    "servingOptions": [ { "label": "1 breast (4 oz)", "grams": 113 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_apple",
+    "name": "Apple",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 52, "protein": 0.3, "carbs": 13.8, "fat": 0.2, "fiber": 2.4, "sugar": 10.4, "sodium": 1, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 182 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_oats",
+    "name": "Oats, dry",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 389, "protein": 16.9, "carbs": 66.3, "fat": 6.9, "fiber": 10.6, "sugar": 0.0, "sodium": 2, "satFat": 1.2 },
+    "servingOptions": [ { "label": "1 cup dry", "grams": 81 }, { "label": "½ cup dry", "grams": 40 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_broccoli",
+    "name": "Broccoli, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 34, "protein": 2.8, "carbs": 6.6, "fat": 0.4, "fiber": 2.6, "sugar": 1.7, "sodium": 33, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup chopped", "grams": 91 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_salmon",
+    "name": "Salmon, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 208, "protein": 20.4, "carbs": 0.0, "fat": 13.4, "fiber": 0.0, "sugar": 0.0, "sodium": 59, "satFat": 3.1 },
+    "servingOptions": [ { "label": "1 fillet (6 oz)", "grams": 170 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_whole_milk",
+    "name": "Whole milk",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 61, "protein": 3.2, "carbs": 4.8, "fat": 3.3, "fiber": 0.0, "sugar": 5.1, "sodium": 44, "satFat": 1.9 },
+    "servingOptions": [ { "label": "1 cup (8 fl oz)", "grams": 244 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_greek_yogurt",
+    "name": "Greek yogurt, plain, full fat",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 97, "protein": 9.0, "carbs": 3.6, "fat": 5.0, "fiber": 0.0, "sugar": 3.2, "sodium": 36, "satFat": 3.3 },
+    "servingOptions": [ { "label": "¾ cup (6 oz)", "grams": 170 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_brown_rice_cooked",
+    "name": "Brown rice, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 123, "protein": 2.6, "carbs": 25.6, "fat": 1.0, "fiber": 1.8, "sugar": 0.4, "sodium": 1, "satFat": 0.2 },
+    "servingOptions": [ { "label": "1 cup", "grams": 195 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_sweet_potato",
+    "name": "Sweet potato, baked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 90, "protein": 2.0, "carbs": 20.7, "fat": 0.1, "fiber": 3.3, "sugar": 6.5, "sodium": 36, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 114 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_almonds",
+    "name": "Almonds, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 579, "protein": 21.2, "carbs": 21.6, "fat": 49.9, "fiber": 12.5, "sugar": 4.4, "sodium": 1, "satFat": 3.8 },
+    "servingOptions": [ { "label": "1 oz (~23 nuts)", "grams": 28 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_cheddar_cheese",
+    "name": "Cheddar cheese",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 403, "protein": 24.9, "carbs": 1.3, "fat": 33.1, "fiber": 0.0, "sugar": 0.5, "sodium": 621, "satFat": 21.1 },
+    "servingOptions": [ { "label": "1 oz slice", "grams": 28 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_lentils_cooked",
+    "name": "Lentils, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 116, "protein": 9.0, "carbs": 20.1, "fat": 0.4, "fiber": 7.9, "sugar": 1.8, "sodium": 2, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup", "grams": 198 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_black_beans_cooked",
+    "name": "Black beans, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 132, "protein": 8.9, "carbs": 23.7, "fat": 0.5, "fiber": 8.7, "sugar": 0.3, "sodium": 1, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup", "grams": 172 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_tofu_firm",
+    "name": "Tofu, firm",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 76, "protein": 8.1, "carbs": 1.9, "fat": 4.2, "fiber": 0.3, "sugar": 0.6, "sodium": 7, "satFat": 0.6 },
+    "servingOptions": [ { "label": "½ block", "grams": 126 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_tuna_canned",
+    "name": "Tuna, canned in water",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 116, "protein": 25.5, "carbs": 0.0, "fat": 1.0, "fiber": 0.0, "sugar": 0.0, "sodium": 300, "satFat": 0.3 },
+    "servingOptions": [ { "label": "1 can (5 oz)", "grams": 142 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_orange",
+    "name": "Orange",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 47, "protein": 0.9, "carbs": 11.8, "fat": 0.1, "fiber": 2.4, "sugar": 9.4, "sodium": 0, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 131 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_strawberries",
+    "name": "Strawberries, fresh",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 32, "protein": 0.7, "carbs": 7.7, "fat": 0.3, "fiber": 2.0, "sugar": 4.9, "sodium": 1, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup", "grams": 152 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_blueberries",
+    "name": "Blueberries, fresh",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 57, "protein": 0.7, "carbs": 14.5, "fat": 0.3, "fiber": 2.4, "sugar": 9.9, "sodium": 1, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup", "grams": 148 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_avocado",
+    "name": "Avocado",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 160, "protein": 2.0, "carbs": 8.5, "fat": 14.7, "fiber": 6.7, "sugar": 0.7, "sodium": 7, "satFat": 2.1 },
+    "servingOptions": [ { "label": "½ avocado", "grams": 100 }, { "label": "1 whole", "grams": 200 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_spinach",
+    "name": "Spinach, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 23, "protein": 2.9, "carbs": 3.6, "fat": 0.4, "fiber": 2.2, "sugar": 0.4, "sodium": 79, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup", "grams": 30 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_carrot",
+    "name": "Carrot, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 41, "protein": 0.9, "carbs": 9.6, "fat": 0.2, "fiber": 2.8, "sugar": 4.7, "sodium": 69, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 61 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_potato_baked",
+    "name": "Potato, baked with skin",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 93, "protein": 2.5, "carbs": 21.1, "fat": 0.1, "fiber": 2.1, "sugar": 1.0, "sodium": 10, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 173 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_bread_whole_wheat",
+    "name": "Bread, whole wheat",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 247, "protein": 13.0, "carbs": 41.3, "fat": 3.5, "fiber": 6.0, "sugar": 5.6, "sodium": 400, "satFat": 0.5 },
+    "servingOptions": [ { "label": "1 slice", "grams": 28 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_pasta_cooked",
+    "name": "Pasta, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 158, "protein": 5.8, "carbs": 30.9, "fat": 0.9, "fiber": 1.8, "sugar": 0.6, "sodium": 1, "satFat": 0.2 },
+    "servingOptions": [ { "label": "1 cup", "grams": 140 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_ground_beef_lean",
+    "name": "Ground beef, 90% lean, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 215, "protein": 26.1, "carbs": 0.0, "fat": 11.8, "fiber": 0.0, "sugar": 0.0, "sodium": 82, "satFat": 4.6 },
+    "servingOptions": [ { "label": "3 oz", "grams": 85 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_peanut_butter",
+    "name": "Peanut butter, natural",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 588, "protein": 25.0, "carbs": 20.0, "fat": 50.0, "fiber": 6.0, "sugar": 9.0, "sodium": 5, "satFat": 10.0 },
+    "servingOptions": [ { "label": "2 tbsp", "grams": 32 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_orange_juice",
+    "name": "Orange juice, fresh squeezed",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 45, "protein": 0.7, "carbs": 10.4, "fat": 0.2, "fiber": 0.2, "sugar": 8.4, "sodium": 1, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup (8 fl oz)", "grams": 248 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_cottage_cheese",
+    "name": "Cottage cheese, low fat",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 72, "protein": 12.4, "carbs": 2.7, "fat": 1.0, "fiber": 0.0, "sugar": 2.7, "sodium": 321, "satFat": 0.7 },
+    "servingOptions": [ { "label": "½ cup", "grams": 113 }, { "label": "1 cup", "grams": 226 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_walnuts",
+    "name": "Walnuts",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 654, "protein": 15.2, "carbs": 13.7, "fat": 65.2, "fiber": 6.7, "sugar": 2.6, "sodium": 2, "satFat": 6.1 },
+    "servingOptions": [ { "label": "1 oz (~14 halves)", "grams": 28 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_shrimp_cooked",
+    "name": "Shrimp, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 99, "protein": 20.9, "carbs": 0.9, "fat": 1.1, "fiber": 0.0, "sugar": 0.0, "sodium": 224, "satFat": 0.3 },
+    "servingOptions": [ { "label": "3 oz", "grams": 85 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_quinoa_cooked",
+    "name": "Quinoa, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 120, "protein": 4.4, "carbs": 21.3, "fat": 1.9, "fiber": 2.8, "sugar": 0.9, "sodium": 7, "satFat": 0.2 },
+    "servingOptions": [ { "label": "1 cup", "grams": 185 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_cucumber",
+    "name": "Cucumber, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 16, "protein": 0.7, "carbs": 3.6, "fat": 0.1, "fiber": 0.5, "sugar": 1.7, "sodium": 2, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup sliced", "grams": 119 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_tomato",
+    "name": "Tomato, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 18, "protein": 0.9, "carbs": 3.9, "fat": 0.2, "fiber": 1.2, "sugar": 2.6, "sodium": 5, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 123 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_bell_pepper",
+    "name": "Bell pepper, red, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 31, "protein": 1.0, "carbs": 6.0, "fat": 0.3, "fiber": 2.1, "sugar": 4.2, "sodium": 4, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 119 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_onion",
+    "name": "Onion, raw",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 40, "protein": 1.1, "carbs": 9.3, "fat": 0.1, "fiber": 1.7, "sugar": 4.2, "sodium": 4, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 medium", "grams": 110 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_olive_oil",
+    "name": "Olive oil",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 884, "protein": 0.0, "carbs": 0.0, "fat": 100.0, "fiber": 0.0, "sugar": 0.0, "sodium": 2, "satFat": 13.8 },
+    "servingOptions": [ { "label": "1 tbsp", "grams": 14 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_butter",
+    "name": "Butter, unsalted",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 717, "protein": 0.9, "carbs": 0.1, "fat": 81.1, "fiber": 0.0, "sugar": 0.1, "sodium": 11, "satFat": 51.4 },
+    "servingOptions": [ { "label": "1 tbsp", "grams": 14 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_mango",
+    "name": "Mango",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 60, "protein": 0.8, "carbs": 15.0, "fat": 0.4, "fiber": 1.6, "sugar": 13.7, "sodium": 1, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup diced", "grams": 165 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_grapes",
+    "name": "Grapes, red or green",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 69, "protein": 0.6, "carbs": 18.1, "fat": 0.2, "fiber": 0.9, "sugar": 15.5, "sodium": 2, "satFat": 0.1 },
+    "servingOptions": [ { "label": "1 cup", "grams": 151 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_watermelon",
+    "name": "Watermelon",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 30, "protein": 0.6, "carbs": 7.6, "fat": 0.2, "fiber": 0.4, "sugar": 6.2, "sodium": 1, "satFat": 0.0 },
+    "servingOptions": [ { "label": "1 cup diced", "grams": 154 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_chickpeas_cooked",
+    "name": "Chickpeas (garbanzo beans), cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 164, "protein": 8.9, "carbs": 27.4, "fat": 2.6, "fiber": 7.6, "sugar": 4.8, "sodium": 7, "satFat": 0.3 },
+    "servingOptions": [ { "label": "1 cup", "grams": 164 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_edamame",
+    "name": "Edamame, shelled, cooked",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 121, "protein": 11.9, "carbs": 8.9, "fat": 5.2, "fiber": 5.2, "sugar": 2.2, "sodium": 63, "satFat": 0.6 },
+    "servingOptions": [ { "label": "1 cup", "grams": 155 }, { "label": "100 g", "grams": 100 } ]
+  },
+  {
+    "id": "seed_low_fat_milk",
+    "name": "Milk, 2% reduced fat",
+    "brand": null,
+    "source": "custom",
+    "barcode": null,
+    "per100g": { "kcal": 50, "protein": 3.4, "carbs": 4.8, "fat": 2.0, "fiber": 0.0, "sugar": 5.1, "sodium": 47, "satFat": 1.2 },
+    "servingOptions": [ { "label": "1 cup (8 fl oz)", "grams": 244 }, { "label": "100 g", "grams": 100 } ]
+  }
+]
