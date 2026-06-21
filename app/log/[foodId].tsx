@@ -31,7 +31,7 @@ export default function LogFood() {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 40 }}>
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.heading }}>{food.name}</Text>
 
       <View style={{ gap: spacing.sm }}>
@@ -60,7 +60,7 @@ export default function LogFood() {
         </Text>
       )}
 
-      <Button onPress={log}>Log to {MEAL_LABELS[meal]}</Button>
+      <Button disabled={!sel || sel.grams <= 0} onPress={log}>Log to {MEAL_LABELS[meal]}</Button>
     </ScrollView>
   );
 }
