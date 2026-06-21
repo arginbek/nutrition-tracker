@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 import { Field } from '../../components/ui/Field';
+import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { FoodSearchRow } from '../../components/nutrition/FoodSearchRow';
 import { searchFoods, getRecentFoods, getFrequentFoods, getFavoriteFoodIds, toggleFavorite, upsertFood, getSetting } from '../../db/queries';
@@ -77,6 +79,9 @@ export default function Add() {
     >
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>Add food</Text>
       <Field value={q} onChangeText={onSearch} placeholder="Search foods…" autoCorrect={false} />
+      <Button variant="secondary" icon={<Feather name="maximize" size={16} color={colors.text} />} onPress={() => router.push('/scan')}>
+        Scan barcode
+      </Button>
 
       {q.trim().length >= 2 ? (
         <View style={{ gap: spacing.sm }}>

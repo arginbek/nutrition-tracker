@@ -28,7 +28,8 @@
       "expo-sqlite",
       "expo-font",
       "expo-head",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      ["expo-camera", { "cameraPermission": "Allow Nutrition to scan barcodes." }]
     ]
   }
 }
