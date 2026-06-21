@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { useApp } from '../../state/AppContext';
-import { setTarget } from '../../db/queries';
+import { setTarget, getSetting, setSetting } from '../../db/queries';
 import { Field } from '../../components/ui/Field';
 import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
@@ -15,6 +15,12 @@ export default function Settings() {
   const [c, setC] = useState(String(target.carbsG));
   const [f, setF] = useState(String(target.fatG));
   const [saved, setSaved] = useState(false);
+  const [usdaKey, setUsdaKey] = useState('');
+  const [keySaved, setKeySaved] = useState(false);
+
+  useEffect(() => {
+    getSetting('usda_api_key').then(v => setUsdaKey(v ?? ''));
+  }, []);
 
   const save = async () => {
     await setTarget({
@@ -24,6 +30,12 @@ export default function Settings() {
     await refreshTarget();
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
+  };
+
+  const saveKey = async () => {
+    await setSetting('usda_api_key', usdaKey.trim());
+    setKeySaved(true);
+    setTimeout(() => setKeySaved(false), 1500);
   };
 
   const labelled = (label: string, value: string, onChange: (s: string) => void) => (
@@ -42,6 +54,20 @@ export default function Settings() {
         {labelled('Carbs (g)', c, setC)}
         {labelled('Fat (g)', f, setF)}
         <Button onPress={save}>{saved ? 'Saved ✓' : 'Save targets'}</Button>
+      </Card>
+      <Card style={{ gap: spacing.md }}>
+        <SectionLabel>Food data (USDA)</SectionLabel>
+        <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.caption }}>
+          Leave blank to use the shared DEMO_KEY (rate-limited). Get a free key at api.data.gov/signup.
+        </Text>
+        <Field
+          value={usdaKey}
+          onChangeText={setUsdaKey}
+          placeholder="USDA API key (optional)"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <Button variant="secondary" onPress={saveKey}>{keySaved ? 'Saved ✓' : 'Save key'}</Button>
       </Card>
     </ScrollView>
   );
