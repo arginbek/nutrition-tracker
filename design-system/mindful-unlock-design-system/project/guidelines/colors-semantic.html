@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semantic & Tints" subtitle="Success / danger, used solid and at 13%" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-app); font-family: var(--font-sans); padding: 20px; display:flex; gap: 24px; align-items:center; }
+  .grp { display:flex; gap: 12px; }
+  .item { text-align:center; }
+  .chip { width: 64px; height: 48px; border-radius: var(--r-md); border: 1px solid var(--border-hairline); }
+  .name { color: var(--text-primary); font-size: 11px; font-weight: 600; margin-top: 6px; }
+  .hex { color: var(--text-muted); font-size: 10px; }
+</style>
+</head>
+<body>
+  <div class="grp">
+    <div class="item"><div class="chip" style="background:#22C55E"></div><div class="name">Success</div><div class="hex">#22C55E</div></div>
+    <div class="item"><div class="chip" style="background:#22C55E22"></div><div class="name">Success 13%</div><div class="hex">--tint-success</div></div>
+  </div>
+  <div class="grp">
+    <div class="item"><div class="chip" style="background:#EF4444"></div><div class="name">Danger</div><div class="hex">#EF4444</div></div>
+    <div class="item"><div class="chip" style="background:#EF444422"></div><div class="name">Danger 13%</div><div class="hex">--tint-danger</div></div>
+  </div>
+  <div class="grp">
+    <div class="item"><div class="chip" style="background:#F59E0B22"></div><div class="name">Amber 13%</div><div class="hex">--tint-amber</div></div>
+    <div class="item"><div class="chip" style="background:#7C3AED22"></div><div class="name">Purple 13%</div><div class="hex">--tint-purple</div></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/* ============================================================
+   Mindful Unlock — Spacing, radius, shadow tokens
+   8pt-ish rhythm with a few in-between steps the app actually uses.
+   ============================================================ */
+:root {
+  /* Spacing scale */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:  10px;
+  --sp-4:  12px;
+  --sp-5:  14px;
+  --sp-6:  16px;  /* default card padding / gap */
+  --sp-7:  18px;
+  --sp-8:  20px;  /* screen horizontal padding */
+  --sp-10: 24px;
+  --sp-12: 28px;
+  --sp-14: 32px;
+
+  /* Radii — the app's signature is the 16px card corner */
+  --r-sm:    8px;  /* small icon badges */
+  --r-md:   12px;  /* buttons, inner tiles */
+  --r-lg:   14px;  /* list rows, inputs */
+  --r-xl:   16px;  /* cards (the default) */
+  --r-2xl:  20px;  /* large app-icon tiles */
+  --r-pill:  999px; /* pills, status chips, circular timers */
+
+  /* Borders */
+  --bw-hairline: 1px;
+  --bw-emphasis: 2px;
+
+  /* Shadows — the dark theme leans on borders + tinted fills, not drop
+     shadows. A single soft elevation exists for floating surfaces
+     (the blurred tab bar, sheets). */
+  --shadow-none: none;
+  --shadow-float: 0 -1px 24px rgba(0, 0, 0, 0.5);
+  --shadow-sheet: 0 -8px 40px rgba(0, 0, 0, 0.6);
+}

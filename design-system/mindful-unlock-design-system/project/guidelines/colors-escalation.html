@@ -1,0 +1,26 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Escalation Scale" subtitle="Visit 1→4 — calm green to solemn purple" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-app); font-family: var(--font-sans); padding: 20px; }
+  .row { display: flex; gap: 12px; }
+  .sw { flex: 1; border-radius: var(--r-lg); border: 1px solid var(--border-hairline); overflow: hidden; }
+  .chip { height: 60px; display:flex; align-items:flex-end; padding: 8px 10px; }
+  .lvl { color: rgba(0,0,0,0.65); font-size: 12px; font-weight: 700; }
+  .meta { padding: 10px 12px; background: var(--surface-card); }
+  .name { color: var(--text-primary); font-size: 12px; font-weight: 600; }
+  .hex { color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; margin-top: 2px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:#22C55E"><span class="lvl">L1</span></div><div class="meta"><div class="name">Intention</div><div class="hex">#22C55E</div></div></div>
+    <div class="sw"><div class="chip" style="background:#F59E0B"><span class="lvl">L2</span></div><div class="meta"><div class="name">Reflection</div><div class="hex">#F59E0B</div></div></div>
+    <div class="sw"><div class="chip" style="background:#EF4444"><span class="lvl">L3</span></div><div class="meta"><div class="name">Deep Oath</div><div class="hex">#EF4444</div></div></div>
+    <div class="sw"><div class="chip" style="background:#7C3AED"><span class="lvl" style="color:rgba(255,255,255,0.85)">L4</span></div><div class="meta"><div class="name">Solemn Vow</div><div class="hex">#7C3AED</div></div></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+/* Inter is the single typeface across the app (weights 400/500/600/700).
+   The native build ships Inter via @expo-google-fonts/inter; here we load the
+   same family from Google Fonts. Swap these for self-hosted Inter .woff2 files
+   if you need fully offline assets. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");

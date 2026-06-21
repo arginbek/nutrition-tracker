@@ -1,0 +1,73 @@
+<!-- @dsCard group="Components" viewport="700x420" name="Display" subtitle="IconTile · Pill · StatTile · MeterBar · ListRow" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-app); font-family: var(--font-sans); padding: 22px; }
+  .wrap { max-width: 600px; display: flex; flex-direction: column; gap: 18px; }
+  .lbl { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/feather-icons@4.29.2/dist/feather.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const NS = window.MindfulUnlockDesignSystem_bf3027;
+  const { IconTile, Pill, StatTile, MeterBar, ListRow, SectionLabel } = NS;
+  function Feather({ name, size = 16, color = "currentColor" }) {
+    const i = window.feather.icons[name];
+    return <span style={{ display: "inline-flex" }} dangerouslySetInnerHTML={{ __html: i ? i.toSvg({ width: size, height: size, color }) : "" }} />;
+  }
+  function Demo() {
+    return (
+      <div className="wrap">
+        <div>
+          <div className="lbl">IconTile · Pill</div>
+          <div className="flow">
+            <IconTile color="#E1306C"><Feather name="instagram" size={20} /></IconTile>
+            <IconTile color="#FF0000"><Feather name="youtube" size={20} /></IconTile>
+            <IconTile color="var(--mu-amber)" size={34}><Feather name="lock" size={16} /></IconTile>
+            <Pill tone="var(--mu-success)" dot>On</Pill>
+            <Pill tone="var(--mu-level-3)">Visit 3</Pill>
+            <Pill tone="var(--mu-amber)" icon={<Feather name="trending-up" size={11} />}>5d</Pill>
+            <Pill tone="var(--mu-danger)" icon={<Feather name="alert-triangle" size={11} />}>Emergency</Pill>
+          </div>
+        </div>
+        <div>
+          <div className="lbl">StatTile</div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <StatTile icon={<Feather name="unlock" size={18} />} value="12" label="Total Unlocks" />
+            <StatTile icon={<Feather name="clock" size={18} />} value="4" label="With Delay" />
+            <StatTile icon={<Feather name="watch" size={18} />} value="3h" label="Time Tracked" />
+          </div>
+        </div>
+        <div>
+          <div className="lbl">MeterBar</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <MeterBar label="Instagram" count="8x" value={8} max={8} color="#E1306C" />
+            <MeterBar label="YouTube" count="3x" value={3} max={8} color="#FF0000" />
+          </div>
+        </div>
+        <div>
+          <SectionLabel style={{ marginBottom: 10 }}>Tracked Apps</SectionLabel>
+          <ListRow
+            icon={<IconTile color="#1DA1F2"><Feather name="twitter" size={20} /></IconTile>}
+            title="X / Twitter"
+            meta={<><Pill tone="var(--mu-level-2)" dot>2 today</Pill><Pill tone="var(--mu-amber)" icon={<Feather name="trending-up" size={10} />}>3d</Pill></>}
+            trailing={<Feather name="chevron-right" size={18} color="var(--text-muted)" />}
+          />
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+</script>
+</body>
+</html>

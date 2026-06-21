@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x190" name="Spacing Scale" subtitle="4 → 32; 16 padding, 20 screen gutter" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-app); font-family: var(--font-sans); padding: 22px; }
+  .row { display:flex; align-items:center; gap: 14px; padding: 5px 0; }
+  .bar { height: 14px; background: var(--mu-amber); border-radius: 3px; }
+  .lab { color: var(--text-primary); font-size: 12px; width: 64px; }
+  .val { color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="row"><span class="lab">sp-1</span><div class="bar" style="width:4px"></div><span class="val">4px</span></div>
+  <div class="row"><span class="lab">sp-2</span><div class="bar" style="width:8px"></div><span class="val">8px</span></div>
+  <div class="row"><span class="lab">sp-4</span><div class="bar" style="width:12px"></div><span class="val">12px</span></div>
+  <div class="row"><span class="lab">sp-6</span><div class="bar" style="width:16px"></div><span class="val">16px · card padding</span></div>
+  <div class="row"><span class="lab">sp-8</span><div class="bar" style="width:20px"></div><span class="val">20px · screen gutter</span></div>
+  <div class="row"><span class="lab">sp-10</span><div class="bar" style="width:24px"></div><span class="val">24px</span></div>
+  <div class="row"><span class="lab">sp-14</span><div class="bar" style="width:32px"></div><span class="val">32px</span></div>
+</body>
+</html>

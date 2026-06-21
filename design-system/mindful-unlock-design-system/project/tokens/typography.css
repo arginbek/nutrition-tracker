@@ -1,0 +1,32 @@
+/* ============================================================
+   Mindful Unlock — Typography tokens
+   One typeface (Inter), four weights, a compact mobile-first scale.
+   ============================================================ */
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Weights — Inter */
+  --fw-regular:  400; /* @kind font */
+  --fw-medium:   500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold:     700; /* @kind font */
+
+  /* Type scale (px values mirror the React Native StyleSheet) */
+  --fs-display:  26px; /* screen titles: "Mindful Unlock", "Journal" */
+  --fs-title:    24px; /* ritual step titles */
+  --fs-heading:  18px; /* card titles, app name in header */
+  --fs-subhead:  16px; /* card titles, primary button label */
+  --fs-body:     15px; /* body copy, inputs */
+  --fs-base:     14px; /* default text, list rows */
+  --fs-sm:       13px; /* subtitles, secondary labels */
+  --fs-xs:       12px; /* captions, timestamps */
+  --fs-2xs:      11px; /* pills, uppercase section labels */
+
+  /* Line heights */
+  --lh-tight:    1.2;  /* @kind font */
+  --lh-snug:     1.45; /* @kind font */
+  --lh-relaxed:  1.6;  /* @kind font */
+
+  /* Letter spacing — uppercase eyebrow/section labels */
+  --ls-label:    0.8px;
+}

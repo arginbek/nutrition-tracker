@@ -1,0 +1,55 @@
+/* ============================================================
+   Mindful Unlock — Color tokens
+   A dark, warm, near-black theme anchored by a single amber accent.
+   Lifted verbatim from constants/colors.ts in the app.
+   ============================================================ */
+:root {
+  /* ---- Base palette (raw values) ---- */
+  --mu-black:          #0A0A0E; /* app background — near-black, faint warmth */
+  --mu-card:           #13131A; /* default card surface */
+  --mu-surface:        #18181F; /* raised surface */
+  --mu-muted:          #16161E; /* muted fill */
+  --mu-secondary:      #1C1C26; /* secondary fill / inputs */
+  --mu-border:         #1E1E2A; /* hairline borders */
+
+  --mu-text:           #F0EDE8; /* warm off-white — primary text */
+  --mu-text-secondary: #B8B4BE; /* body / supporting text */
+  --mu-text-muted:     #6B6875; /* captions, labels, placeholders */
+
+  --mu-amber:          #F59E0B; /* the brand accent */
+  --mu-amber-light:    #FCD34D; /* lighter amber for highlights */
+  --mu-purple:         #7C3AED; /* oath / commitment moments */
+  --mu-purple-light:   #A78BFA; /* purple text on dark */
+  --mu-accent:         #2A2040; /* purple-tinted accent fill */
+
+  --mu-success:        #22C55E; /* shield on, streaks, completion */
+  --mu-danger:         #EF4444; /* emergency, destructive */
+
+  /* Escalation scale — visit / difficulty levels 1→4 */
+  --mu-level-1:        #22C55E; /* green  — calm, first visit */
+  --mu-level-2:        #F59E0B; /* amber  — second visit */
+  --mu-level-3:        #EF4444; /* red    — third visit */
+  --mu-level-4:        #7C3AED; /* purple — fourth+ / solemn */
+
+  /* ---- Semantic aliases ---- */
+  --surface-app:       var(--mu-black);
+  --surface-card:      var(--mu-card);
+  --surface-raised:    var(--mu-surface);
+  --surface-input:     var(--mu-secondary);
+
+  --text-primary:      var(--mu-text);
+  --text-body:         var(--mu-text-secondary);
+  --text-muted:        var(--mu-text-muted);
+  --text-on-accent:    var(--mu-black); /* dark text sits on amber */
+
+  --border-hairline:   var(--mu-border);
+  --accent-primary:    var(--mu-amber);
+  --accent-commit:     var(--mu-purple);
+
+  /* Tint helpers — accents are used at ~13% opacity behind icons & pills.
+     Suffix "22" hex ≈ 13% alpha, matching the native `color + "22"` idiom. */
+  --tint-amber:        #F59E0B22;
+  --tint-purple:       #7C3AED22;
+  --tint-success:      #22C55E22;
+  --tint-danger:       #EF444422;
+}

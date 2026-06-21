@@ -1,0 +1,20 @@
+<!-- @dsCard group="Spacing" viewport="700x170" name="Borders & Elevation" subtitle="Hairline borders over shadows; blur for floating chrome" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; background: var(--surface-app); font-family: var(--font-sans); padding: 22px; display:flex; gap: 16px; }
+  .item { flex:1; text-align:center; }
+  .box { height: 72px; border-radius: var(--r-xl); display:flex; align-items:center; justify-content:center; color: var(--text-muted); font-size: 12px; }
+  .name { color: var(--text-primary); font-size: 12px; font-weight: 600; margin-top: 8px; }
+  .val { color: var(--text-muted); font-size: 11px; }
+</style>
+</head>
+<body>
+  <div class="item"><div class="box" style="background:var(--surface-card);border:1px solid var(--border-hairline)">surface</div><div class="name">Hairline</div><div class="val">1px --mu-border</div></div>
+  <div class="item"><div class="box" style="background:var(--surface-card);border:2px solid var(--mu-amber)">accent</div><div class="name">Emphasis</div><div class="val">2px accent border</div></div>
+  <div class="item"><div class="box" style="background:color-mix(in srgb, var(--mu-black) 72%, transparent);backdrop-filter:blur(20px);border-top:1px solid var(--border-hairline);box-shadow:var(--shadow-float)">blur chrome</div><div class="name">Float</div><div class="val">blur + soft shadow</div></div>
+</body>
+</html>
