@@ -8,6 +8,7 @@ import {
 import { colors } from '../theme';
 import { initDb } from '../db';
 import { seedIfEmpty } from '../db/seed';
+import { AppProvider } from '../state/AppContext';
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -19,14 +20,16 @@ export default function RootLayout() {
   }, []);
   if (!loaded || !dbReady) return null;
   return (
-    <>
-      <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.canvas },
-        }}
-      />
-    </>
+    <AppProvider>
+      <>
+        <StatusBar style="light" />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.canvas },
+          }}
+        />
+      </>
+    </AppProvider>
   );
 }
