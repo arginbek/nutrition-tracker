@@ -1,16 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { Field } from '../../components/ui/Field';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { FoodSearchRow } from '../../components/nutrition/FoodSearchRow';
-import { searchFoods, getRecentFoods, getFrequentFoods, getFavoriteFoodIds, toggleFavorite } from '../../db/queries';
+import { searchFoods, getRecentFoods, getFrequentFoods, getFavoriteFoodIds, toggleFavorite, upsertFood, getSetting } from '../../db/queries';
+import { searchUsda } from '../../lib/usda';
 import { Food } from '../../lib/types';
 import { colors, spacing, type } from '../../theme';
 
 export default function Add() {
   const [q, setQ] = useState('');
   const [results, setResults] = useState<Food[]>([]);
+  const [searching, setSearching] = useState(false);
+  const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [recents, setRecents] = useState<Food[]>([]);
   const [frequents, setFrequents] = useState<Food[]>([]);
   const [favIds, setFavIds] = useState<string[]>([]);
@@ -22,9 +25,27 @@ export default function Add() {
   }, []);
   useFocusEffect(useCallback(() => { refresh(); }, [refresh]));
 
-  const onSearch = async (text: string) => {
+  const onSearch = (text: string) => {
     setQ(text);
-    setResults(text.trim().length >= 2 ? await searchFoods(text.trim()) : []);
+    const q = text.trim();
+    if (debounce.current) clearTimeout(debounce.current);
+    if (q.length < 2) { setResults([]); setSearching(false); return; }
+
+    // instant local results
+    searchFoods(q).then(setResults);
+
+    // debounced USDA merge
+    setSearching(true);
+    debounce.current = setTimeout(async () => {
+      const key = (await getSetting('usda_api_key'))?.trim() || 'DEMO_KEY';
+      const remote = await searchUsda(q, key);
+      for (const f of remote) { await upsertFood(f); }       // cache for instant/offline reuse
+      setResults(prev => {
+        const seen = new Set(prev.map(p => p.id));
+        return [...prev, ...remote.filter(r => !seen.has(r.id))];
+      });
+      setSearching(false);
+    }, 600);
   };
 
   const onToggleFav = async (id: string) => { await toggleFavorite('food', id); setFavIds(await getFavoriteFoodIds()); };
@@ -52,8 +73,13 @@ export default function Add() {
       {q.trim().length >= 2 ? (
         <View style={{ gap: spacing.sm }}>
           <SectionLabel>Results</SectionLabel>
-          {results.length === 0
-            ? <Text style={{ color: colors.textMuted, fontFamily: type.family }}>No matches.</Text>
+          {searching && (
+            <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.caption }}>
+              Searching USDA…
+            </Text>
+          )}
+          {results.length === 0 && !searching
+            ? <Text style={{ color: colors.textMuted, fontFamily: type.family }}>No matches (check your connection or USDA key).</Text>
             : results.map(row)}
         </View>
       ) : (
