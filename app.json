@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "nutrition",
+    "name": "Nutrition",
     "slug": "nutrition",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,8 @@
     "scheme": "nutrition",
     "userInterfaceStyle": "dark",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.arginbek.nutrition"
     },
     "android": {
       "adaptiveIcon": {
