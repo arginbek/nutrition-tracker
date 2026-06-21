@@ -26,6 +26,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="log/[foodId]" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="food/new" options={{ presentation: 'modal' }} />
         </Stack>
       </>
     </AppProvider>
