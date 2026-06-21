@@ -2,17 +2,21 @@ import { useCallback, useState } from 'react';
 import { ScrollView, View, Text, RefreshControl, Alert } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { useApp } from '../../state/AppContext';
-import { getEntriesForDate, deleteLogEntry } from '../../db/queries';
+import { getEntriesForDate, deleteLogEntry, copyDay } from '../../db/queries';
 import { sumNutrients } from '../../lib/totals';
+import { shiftISO, todayISO } from '../../lib/date';
 import { LogEntry, MEALS, MealId } from '../../lib/types';
 import { MacroRing } from '../../components/nutrition/MacroRing';
 import { MacroBar } from '../../components/nutrition/MacroBar';
 import { MealSection } from '../../components/nutrition/MealSection';
+import { DayHeader } from '../../components/nutrition/DayHeader';
 import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
 import { colors, macroColors, spacing, type } from '../../theme';
 
 export default function Today() {
-  const { selectedDate, target } = useApp();
+  const { selectedDate, setSelectedDate, target } = useApp();
+  const label = selectedDate === todayISO() ? 'Today' : selectedDate;
   const [entries, setEntries] = useState<LogEntry[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -38,7 +42,11 @@ export default function Today() {
       contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.textMuted} />}
     >
-      <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>Today</Text>
+      <DayHeader
+        label={label}
+        onPrev={() => setSelectedDate(shiftISO(selectedDate, -1))}
+        onNext={() => setSelectedDate(shiftISO(selectedDate, 1))}
+      />
 
       <Card style={{ alignItems: 'center', gap: spacing.base }}>
         <MacroRing consumed={totals.kcal} target={target.dailyKcal} />
@@ -50,9 +58,14 @@ export default function Today() {
       </Card>
 
       {entries.length === 0 && (
-        <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.bodySm, textAlign: 'center', marginTop: spacing.lg }}>
-          Nothing logged yet. Tap Add to log a food.
-        </Text>
+        <View style={{ gap: spacing.md, marginTop: spacing.lg }}>
+          <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.bodySm, textAlign: 'center' }}>
+            Nothing logged yet. Tap Add to log a food.
+          </Text>
+          <Button variant="secondary" onPress={async () => { await copyDay(shiftISO(selectedDate, -1), selectedDate); load(); }}>
+            Copy from previous day
+          </Button>
+        </View>
       )}
 
       {MEALS.map(m => (
