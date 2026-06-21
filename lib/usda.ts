@@ -67,14 +67,20 @@ export function usdaFoodToFood(raw: UsdaFood): Food {
   };
 }
 
-export async function searchUsda(query: string, apiKey: string): Promise<Food[]> {
+export type UsdaSearchResult =
+  | { ok: true; foods: Food[] }
+  | { ok: false; reason: 'rate_limit' | 'unauthorized' | 'network' };
+
+export async function searchUsda(query: string, apiKey: string): Promise<UsdaSearchResult> {
   try {
     const url = `https://api.nal.usda.gov/fdc/v1/foods/search?query=${encodeURIComponent(query)}&pageSize=25&api_key=${encodeURIComponent(apiKey)}`;
     const res = await fetch(url);
-    if (!res.ok) return [];
+    if (res.status === 429) return { ok: false, reason: 'rate_limit' };
+    if (res.status === 401 || res.status === 403) return { ok: false, reason: 'unauthorized' };
+    if (!res.ok) return { ok: false, reason: 'network' };
     const data = (await res.json()) as { foods?: UsdaFood[] };
-    return (data.foods ?? []).map(usdaFoodToFood);
+    return { ok: true, foods: (data.foods ?? []).map(usdaFoodToFood) };
   } catch {
-    return [];
+    return { ok: false, reason: 'network' };
   }
 }

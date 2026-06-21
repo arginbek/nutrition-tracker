@@ -13,6 +13,7 @@ export default function Add() {
   const [q, setQ] = useState('');
   const [results, setResults] = useState<Food[]>([]);
   const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState<'rate_limit' | 'unauthorized' | 'network' | null>(null);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (debounce.current) clearTimeout(debounce.current); }, []);
   const [recents, setRecents] = useState<Food[]>([]);
@@ -30,7 +31,8 @@ export default function Add() {
     setQ(text);
     const q = text.trim();
     if (debounce.current) clearTimeout(debounce.current);
-    if (q.length < 2) { setResults([]); setSearching(false); return; }
+    if (q.length < 2) { setResults([]); setSearching(false); setSearchError(null); return; }
+    setSearchError(null);
 
     // instant local results
     searchFoods(q).then(setResults);
@@ -39,12 +41,17 @@ export default function Add() {
     setSearching(true);
     debounce.current = setTimeout(async () => {
       const key = (await getSetting('usda_api_key'))?.trim() || 'DEMO_KEY';
-      const remote = await searchUsda(q, key);
-      for (const f of remote) { await upsertFood(f); }       // cache for instant/offline reuse
-      setResults(prev => {
-        const seen = new Set(prev.map(p => p.id));
-        return [...prev, ...remote.filter(r => !seen.has(r.id))];
-      });
+      const result = await searchUsda(q, key);
+      if (result.ok) {
+        for (const f of result.foods) { await upsertFood(f); }
+        setResults(prev => {
+          const seen = new Set(prev.map(p => p.id));
+          return [...prev, ...result.foods.filter(r => !seen.has(r.id))];
+        });
+        setSearchError(null);
+      } else {
+        setSearchError(result.reason);
+      }
       setSearching(false);
     }, 600);
   };
@@ -80,7 +87,15 @@ export default function Add() {
             </Text>
           )}
           {results.length === 0 && !searching
-            ? <Text style={{ color: colors.textMuted, fontFamily: type.family }}>No matches (check your connection or USDA key).</Text>
+            ? <Text style={{ color: colors.textMuted, fontFamily: type.family }}>
+                {searchError === 'rate_limit'
+                  ? 'USDA hourly limit reached — add your own key in Settings.'
+                  : searchError === 'unauthorized'
+                  ? 'USDA key rejected — check it in Settings.'
+                  : searchError === 'network'
+                  ? "Couldn't reach USDA — check your connection."
+                  : 'No matches.'}
+              </Text>
             : results.map(row)}
         </View>
       ) : (
