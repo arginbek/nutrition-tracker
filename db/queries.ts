@@ -154,14 +154,14 @@ export async function getCustomFoods(): Promise<Food[]> {
 
 // ---- Recipes ----
 export async function createRecipe(name: string, components: RecipeComponentInput[]): Promise<string> {
-  const id = `recipe_${Date.now()}`;
+  const id = `recipe_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   await getDb().runAsync('INSERT INTO recipes (id, name) VALUES (?, ?)', [id, name]);
   for (let i = 0; i < components.length; i++) {
     const c = components[i];
     await getDb().runAsync(
       `INSERT INTO recipe_components (id, recipe_id, food_id, serving_label, quantity)
        VALUES (?, ?, ?, ?, ?)`,
-      [`rc_${Date.now()}_${i}`, id, c.foodId, c.servingLabel, c.quantity],
+      [`rc_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 7)}`, id, c.foodId, c.servingLabel, c.quantity],
     );
   }
   return id;
@@ -191,7 +191,7 @@ export async function copyDay(fromDate: string, toDate: string): Promise<number>
   const entries = await getEntriesForDate(fromDate);
   for (let i = 0; i < entries.length; i++) {
     const e = entries[i];
-    await insertLogEntry({ ...e, id: `log_${Date.now()}_${i}`, date: toDate });
+    await insertLogEntry({ ...e, id: `log_${Date.now()}_${i}_${Math.random().toString(36).slice(2, 7)}`, date: toDate });
   }
   return entries.length;
 }

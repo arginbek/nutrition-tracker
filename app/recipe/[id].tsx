@@ -35,7 +35,7 @@ export default function RecipeScreen() {
 
   const log = async () => {
     const entry: LogEntry = {
-      id: `log_${Date.now()}`, date: selectedDate, meal,
+      id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`, date: selectedDate, meal,
       foodId: null, nameSnapshot: recipe.name,
       servingLabel: '1 serving', quantity: 1, computed: totals,
     };

@@ -22,7 +22,7 @@ export default function LogFood() {
   const log = async () => {
     if (!sel) return;
     const entry: LogEntry = {
-      id: `log_${Date.now()}`, date: selectedDate, meal,
+      id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`, date: selectedDate, meal,
       foodId: food.id, nameSnapshot: food.name,
       servingLabel: sel.servingLabel, quantity: sel.quantity, computed: sel.nutrients,
     };

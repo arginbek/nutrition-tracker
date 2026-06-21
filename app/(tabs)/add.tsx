@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { Field } from '../../components/ui/Field';
@@ -14,6 +14,7 @@ export default function Add() {
   const [results, setResults] = useState<Food[]>([]);
   const [searching, setSearching] = useState(false);
   const debounce = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (debounce.current) clearTimeout(debounce.current); }, []);
   const [recents, setRecents] = useState<Food[]>([]);
   const [frequents, setFrequents] = useState<Food[]>([]);
   const [favIds, setFavIds] = useState<string[]>([]);

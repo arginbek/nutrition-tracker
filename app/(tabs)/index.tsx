@@ -48,6 +48,12 @@ export default function Today() {
         onNext={() => setSelectedDate(shiftISO(selectedDate, 1))}
       />
 
+      <Button variant="secondary" onPress={async () => {
+        const n = await copyDay(shiftISO(selectedDate, -1), selectedDate);
+        load();
+        Alert.alert(n > 0 ? `Copied ${n} item${n === 1 ? '' : 's'} from the previous day` : 'Nothing logged the previous day');
+      }}>Copy previous day</Button>
+
       <Card style={{ alignItems: 'center', gap: spacing.base }}>
         <MacroRing consumed={totals.kcal} target={target.dailyKcal} />
         <View style={{ alignSelf: 'stretch', gap: spacing.md }}>
@@ -58,14 +64,9 @@ export default function Today() {
       </Card>
 
       {entries.length === 0 && (
-        <View style={{ gap: spacing.md, marginTop: spacing.lg }}>
-          <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.bodySm, textAlign: 'center' }}>
-            Nothing logged yet. Tap Add to log a food.
-          </Text>
-          <Button variant="secondary" onPress={async () => { await copyDay(shiftISO(selectedDate, -1), selectedDate); load(); }}>
-            Copy from previous day
-          </Button>
-        </View>
+        <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.bodySm, textAlign: 'center', marginTop: spacing.lg }}>
+          Nothing logged yet. Tap Add to log a food.
+        </Text>
       )}
 
       {MEALS.map(m => (
