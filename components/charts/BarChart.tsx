@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
-import { SeriesPoint, niceBounds, yToPixel } from '../../lib/trends';
+import { SeriesPoint } from '../../lib/trends';
 import { colors, macroColors, type } from '../../theme';
 
 export function BarChart({
