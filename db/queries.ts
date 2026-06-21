@@ -1,5 +1,5 @@
 import { getDb } from './index';
-import { Food, LogEntry, MealId, Nutrients, ServingOption, Target, Recipe, RecipeComponent, RecipeComponentInput } from '../lib/types';
+import { Food, LogEntry, MealId, Nutrients, ServingOption, Target, Recipe, RecipeComponent, RecipeComponentInput, WeightEntry } from '../lib/types';
 import { recentFoodIds, frequentFoodIds } from '../lib/ranking';
 
 interface FoodRow {
@@ -202,4 +202,30 @@ export async function getLoggedDates(): Promise<{ date: string; kcal: number }[]
     `SELECT date, CAST(SUM(json_extract(computed, '$.kcal')) AS INTEGER) AS kcal
      FROM log_entries GROUP BY date ORDER BY date DESC`,
   );
+}
+
+// ---- Weight tracking ----
+export async function addWeight(date: string, weight: number, unit: 'kg' | 'lb'): Promise<void> {
+  await getDb().runAsync(
+    'INSERT OR REPLACE INTO weight_entries (id, date, weight, unit) VALUES (?, ?, ?, ?)',
+    [`weight_${date}`, date, weight, unit],
+  );
+}
+
+export async function getWeights(): Promise<WeightEntry[]> {
+  const rows = await getDb().getAllAsync<{ id: string; date: string; weight: number; unit: string }>(
+    'SELECT * FROM weight_entries ORDER BY date ASC',
+  );
+  return rows.map(r => ({ id: r.id, date: r.date, weight: r.weight, unit: r.unit as 'kg' | 'lb' }));
+}
+
+export async function getLatestWeight(): Promise<WeightEntry | null> {
+  const r = await getDb().getFirstAsync<{ id: string; date: string; weight: number; unit: string }>(
+    'SELECT * FROM weight_entries ORDER BY date DESC LIMIT 1',
+  );
+  return r ? { id: r.id, date: r.date, weight: r.weight, unit: r.unit as 'kg' | 'lb' } : null;
+}
+
+export async function deleteWeight(date: string): Promise<void> {
+  await getDb().runAsync('DELETE FROM weight_entries WHERE date = ?', [date]);
 }

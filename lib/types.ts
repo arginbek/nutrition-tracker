@@ -59,3 +59,10 @@ export interface RecipeComponentInput {
   servingLabel: string;
   quantity: number;
 }
+
+export interface WeightEntry {
+  id: string;
+  date: string;       // YYYY-MM-DD
+  weight: number;
+  unit: 'kg' | 'lb';
+}

@@ -54,6 +54,13 @@ CREATE TABLE IF NOT EXISTS recipe_components (
   quantity REAL NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_rc_recipe ON recipe_components(recipe_id);
+
+CREATE TABLE IF NOT EXISTS weight_entries (
+  id TEXT PRIMARY KEY,
+  date TEXT NOT NULL,
+  weight REAL NOT NULL,
+  unit TEXT NOT NULL
+);
 `;
 
 export const DEFAULT_TARGET = {
