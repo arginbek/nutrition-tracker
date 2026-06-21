@@ -27,6 +27,8 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="log/[foodId]" options={{ presentation: 'modal' }} />
           <Stack.Screen name="food/new" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="recipe/new" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="recipe/[id]" options={{ presentation: 'modal' }} />
         </Stack>
       </>
     </AppProvider>
