@@ -82,6 +82,9 @@ export default function Add() {
       <Button variant="secondary" icon={<Feather name="maximize" size={16} color={colors.text} />} onPress={() => router.push('/scan')}>
         Scan barcode
       </Button>
+      <Button variant="secondary" icon={<Feather name="camera" size={16} color={colors.text} />} onPress={() => router.push('/photo')}>
+        Snap a meal
+      </Button>
 
       {q.trim().length >= 2 ? (
         <View style={{ gap: spacing.sm }}>
