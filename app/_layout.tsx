@@ -5,10 +5,22 @@ import {
   useFonts,
   Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold,
 } from '@expo-google-fonts/inter';
+import * as Notifications from 'expo-notifications';
 import { colors } from '../theme';
 import { initDb } from '../db';
 import { seedIfEmpty } from '../db/seed';
 import { AppProvider } from '../state/AppContext';
+import { getReminderConfig } from '../db/queries';
+import { syncReminders } from '../lib/notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -16,7 +28,12 @@ export default function RootLayout() {
   });
   const [dbReady, setDbReady] = useState(false);
   useEffect(() => {
-    (async () => { await initDb(); await seedIfEmpty(); setDbReady(true); })();
+    (async () => {
+      await initDb();
+      await seedIfEmpty();
+      setDbReady(true);
+      getReminderConfig().then(syncReminders).catch(() => {});
+    })();
   }, []);
   if (!loaded || !dbReady) return null;
   return (
