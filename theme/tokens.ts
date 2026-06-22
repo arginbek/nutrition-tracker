@@ -19,7 +19,7 @@ export const colors = {
 export const macroColors = {
   calories: colors.amber,
   protein: colors.success,
-  carbs: colors.amberLight,
+  carbs: '#60A5FA', // blue — distinct from the amber calorie ring so the ring doesn't read as "carbs"
   fat: '#A78BFA', // soft violet purely for the 3rd macro bar; not "commitment purple"
 } as const;
 
