@@ -10,10 +10,12 @@ import { Field } from '../../components/ui/Field';
 import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { Card } from '../../components/ui/Card';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, type } from '../../theme';
 
 export default function Settings() {
   const { target, refreshTarget } = useApp();
+  const insets = useSafeAreaInsets();
   const [kcal, setKcal] = useState(String(target.dailyKcal));
   const [p, setP] = useState(String(target.proteinG));
   const [c, setC] = useState(String(target.carbsG));
@@ -99,7 +101,7 @@ export default function Settings() {
   );
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, paddingTop: insets.top + spacing.sm, gap: spacing.base, paddingBottom: 120 }}>
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>Settings</Text>
       <Card style={{ gap: spacing.md }}>
         {labelled('Daily calories', kcal, setKcal)}

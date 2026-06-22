@@ -12,10 +12,12 @@ import { MealSection } from '../../components/nutrition/MealSection';
 import { DayHeader } from '../../components/nutrition/DayHeader';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, macroColors, spacing, type } from '../../theme';
 
 export default function Today() {
   const { selectedDate, setSelectedDate, target } = useApp();
+  const insets = useSafeAreaInsets();
   const label = selectedDate === todayISO() ? 'Today' : selectedDate;
   const [entries, setEntries] = useState<LogEntry[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -39,7 +41,7 @@ export default function Today() {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.canvas }}
-      contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}
+      contentContainerStyle={{ padding: spacing.gutter, paddingTop: insets.top + spacing.sm, gap: spacing.base, paddingBottom: 120 }}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={async () => { setRefreshing(true); await load(); setRefreshing(false); }} tintColor={colors.textMuted} />}
     >
       <DayHeader

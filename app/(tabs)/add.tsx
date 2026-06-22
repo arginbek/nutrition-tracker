@@ -9,9 +9,11 @@ import { FoodSearchRow } from '../../components/nutrition/FoodSearchRow';
 import { searchFoods, getRecentFoods, getFrequentFoods, getFavoriteFoodIds, toggleFavorite, upsertFood, getSetting } from '../../db/queries';
 import { searchUsda } from '../../lib/usda';
 import { Food } from '../../lib/types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, type } from '../../theme';
 
 export default function Add() {
+  const insets = useSafeAreaInsets();
   const [q, setQ] = useState('');
   const [results, setResults] = useState<Food[]>([]);
   const [searching, setSearching] = useState(false);
@@ -74,7 +76,7 @@ export default function Add() {
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: colors.canvas }}
-      contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}
+      contentContainerStyle={{ padding: spacing.gutter, paddingTop: insets.top + spacing.sm, gap: spacing.base, paddingBottom: 120 }}
       keyboardShouldPersistTaps="handled"
     >
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>Add food</Text>

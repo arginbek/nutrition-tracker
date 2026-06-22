@@ -8,9 +8,11 @@ import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { ListRow } from '../../components/ui/ListRow';
 import { IconTile } from '../../components/ui/IconTile';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, type } from '../../theme';
 
 export default function Foods() {
+  const insets = useSafeAreaInsets();
   const [foods, setFoods] = useState<Food[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const load = useCallback(async () => {
@@ -20,7 +22,7 @@ export default function Foods() {
   useFocusEffect(useCallback(() => { load(); }, [load]));
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, paddingTop: insets.top + spacing.sm, gap: spacing.base, paddingBottom: 120 }}>
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>Foods</Text>
 
       <View style={{ flexDirection: 'row', gap: spacing.sm }}>

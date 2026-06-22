@@ -12,10 +12,12 @@ import { SectionLabel } from '../../components/ui/SectionLabel';
 import { WeightCard } from '../../components/nutrition/WeightCard';
 import { LineChart } from '../../components/charts/LineChart';
 import { BarChart } from '../../components/charts/BarChart';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, macroColors, spacing, type } from '../../theme';
 
 export default function History() {
   const { setSelectedDate } = useApp();
+  const insets = useSafeAreaInsets();
   const [days, setDays] = useState<{ date: string; kcal: number }[]>([]);
   const [weights, setWeights] = useState<{ date: string; value: number }[]>([]);
 
@@ -33,7 +35,7 @@ export default function History() {
   const calorieSeries = seriesFromValues(days.map(d => ({ date: d.date, value: d.kcal })), 14, today);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, gap: spacing.base, paddingBottom: 120 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.canvas }} contentContainerStyle={{ padding: spacing.gutter, paddingTop: insets.top + spacing.sm, gap: spacing.base, paddingBottom: 120 }}>
       <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: type.screenTitle }}>History</Text>
 
       <WeightCard onSaved={load} />
