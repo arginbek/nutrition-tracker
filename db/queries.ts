@@ -2,6 +2,7 @@ import { getDb } from './index';
 import { Food, LogEntry, MealId, Nutrients, ServingOption, Target, Recipe, RecipeComponent, RecipeComponentInput, WeightEntry } from '../lib/types';
 import { recentFoodIds, frequentFoodIds } from '../lib/ranking';
 import { BackupTables, BackupRow } from '../lib/backup';
+import { ReminderConfig, DEFAULT_REMINDERS } from '../lib/reminders';
 
 interface FoodRow {
   id: string; name: string; brand: string | null; source: string;
@@ -296,4 +297,19 @@ export async function loadTables(data: BackupTables): Promise<number> {
     }
   });
   return imported;
+}
+
+// ---- Reminder config persistence ----
+export async function getReminderConfig(): Promise<ReminderConfig> {
+  const raw = await getSetting('reminders_config');
+  if (!raw) return DEFAULT_REMINDERS;
+  try {
+    return { ...DEFAULT_REMINDERS, ...(JSON.parse(raw) as Partial<ReminderConfig>) };
+  } catch {
+    return DEFAULT_REMINDERS;
+  }
+}
+
+export async function setReminderConfig(config: ReminderConfig): Promise<void> {
+  await setSetting('reminders_config', JSON.stringify(config));
 }
