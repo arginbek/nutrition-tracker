@@ -20,7 +20,7 @@ export function MacroRing({ consumed, target }: { consumed: number; target: numb
       </Svg>
       <View style={{ position: 'absolute', alignItems: 'center' }}>
         <Text style={{ color: colors.text, fontFamily: type.familyBold, fontSize: 32 }}>
-          {Math.max(0, Math.round(remaining))}
+          {Math.abs(Math.round(remaining))}
         </Text>
         <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.caption }}>
           {remaining >= 0 ? 'kcal left' : 'kcal over'}
