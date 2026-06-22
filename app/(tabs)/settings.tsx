@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react';
-import { ScrollView, View, Text, Alert } from 'react-native';
+import { ScrollView, View, Text, Alert, Pressable } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import { useApp } from '../../state/AppContext';
-import { setTarget, getSetting, setSetting, dumpTables, loadTables } from '../../db/queries';
+import { setTarget, getSetting, setSetting, dumpTables, loadTables, getReminderConfig, setReminderConfig } from '../../db/queries';
 import { buildBackup, parseBackup, countRows } from '../../lib/backup';
+import { applyReminders } from '../../lib/notifications';
+import { ReminderConfig, ReminderMode, DEFAULT_REMINDERS, parseTime, formatTime } from '../../lib/reminders';
 import { Field } from '../../components/ui/Field';
 import { Button } from '../../components/ui/Button';
 import { SectionLabel } from '../../components/ui/SectionLabel';
 import { Card } from '../../components/ui/Card';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, spacing, type } from '../../theme';
+import { colors, spacing, type, radii } from '../../theme';
 
 export default function Settings() {
   const { target, refreshTarget } = useApp();
@@ -25,11 +28,38 @@ export default function Settings() {
   const [keySaved, setKeySaved] = useState(false);
   const [anthropicKey, setAnthropicKey] = useState('');
   const [aiSaved, setAiSaved] = useState(false);
+  const [reminders, setReminders] = useState<ReminderConfig>(DEFAULT_REMINDERS);
+  const [picking, setPicking] = useState<null | keyof ReminderConfig>(null);
+  const [remSaved, setRemSaved] = useState(false);
 
   useEffect(() => {
     getSetting('usda_api_key').then(v => setUsdaKey(v ?? ''));
     getSetting('anthropic_api_key').then(v => setAnthropicKey(v ?? ''));
+    getReminderConfig().then(setReminders);
   }, []);
+
+  const timeToDate = (hhmm: string) => {
+    const { hour, minute } = parseTime(hhmm);
+    const d = new Date();
+    d.setHours(hour, minute, 0, 0);
+    return d;
+  };
+
+  const onPickTime = (field: keyof ReminderConfig, date?: Date) => {
+    setPicking(null);
+    if (date) setReminders(prev => ({ ...prev, [field]: formatTime({ hour: date.getHours(), minute: date.getMinutes() }) }));
+  };
+
+  const saveReminders = async () => {
+    await setReminderConfig(reminders);
+    const { granted } = await applyReminders(reminders);
+    if (!granted && reminders.mode !== 'off') {
+      Alert.alert('Notifications off', 'Enable notifications for Nutrition in iOS Settings to get reminders.');
+      return;
+    }
+    setRemSaved(true);
+    setTimeout(() => setRemSaved(false), 1500);
+  };
 
   const save = async () => {
     await setTarget({
@@ -146,6 +176,55 @@ export default function Settings() {
         </Text>
         <Button variant="secondary" onPress={exportBackup}>Export backup</Button>
         <Button variant="secondary" onPress={restoreBackup}>Restore from backup</Button>
+      </Card>
+      <Card style={{ gap: spacing.md }}>
+        <SectionLabel>Reminders</SectionLabel>
+        <Text style={{ color: colors.textMuted, fontFamily: type.family, fontSize: type.caption }}>
+          Daily reminders to log your meals. They notify at the set time whether or not you've logged.
+        </Text>
+        <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+          {(['off', 'daily', 'meals'] as ReminderMode[]).map((m, _i, _arr) => {
+            const labels: Record<ReminderMode, string> = { off: 'Off', daily: 'Once a day', meals: 'Per meal' };
+            return (
+              <Pressable key={m} onPress={() => setReminders(prev => ({ ...prev, mode: m }))} style={{
+                flex: 1, alignItems: 'center', paddingVertical: spacing.sm, borderRadius: radii.control,
+                borderWidth: 1, borderColor: reminders.mode === m ? colors.amber : colors.border, backgroundColor: colors.secondary,
+              }}>
+                <Text style={{ color: reminders.mode === m ? colors.amber : colors.text, fontFamily: type.familyMedium, fontSize: type.bodySm }}>{labels[m]}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        {reminders.mode === 'daily' && (
+          <Pressable onPress={() => setPicking('daily')} style={{
+            flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+            backgroundColor: colors.secondary, borderWidth: 1, borderColor: colors.border, borderRadius: radii.row, padding: spacing.md,
+          }}>
+            <Text style={{ color: colors.text, fontFamily: type.family, fontSize: type.bodySm }}>Reminder time</Text>
+            <Text style={{ color: colors.amber, fontFamily: type.familySemibold, fontSize: type.body }}>{reminders.daily}</Text>
+          </Pressable>
+        )}
+        {reminders.mode === 'meals' && (
+          <View style={{ gap: spacing.sm }}>
+            {([['breakfast', 'Breakfast'], ['lunch', 'Lunch'], ['dinner', 'Dinner']] as [keyof ReminderConfig, string][]).map(([field, label]) => (
+              <Pressable key={field} onPress={() => setPicking(field)} style={{
+                flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                backgroundColor: colors.secondary, borderWidth: 1, borderColor: colors.border, borderRadius: radii.row, padding: spacing.md,
+              }}>
+                <Text style={{ color: colors.text, fontFamily: type.family, fontSize: type.bodySm }}>{label}</Text>
+                <Text style={{ color: colors.amber, fontFamily: type.familySemibold, fontSize: type.body }}>{reminders[field] as string}</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+        {picking && (
+          <DateTimePicker
+            value={timeToDate(reminders[picking] as string)}
+            mode="time"
+            onChange={(_e, date) => onPickTime(picking, date)}
+          />
+        )}
+        <Button variant="secondary" onPress={saveReminders}>{remSaved ? 'Saved ✓' : 'Save reminders'}</Button>
       </Card>
     </ScrollView>
   );
