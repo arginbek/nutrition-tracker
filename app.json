@@ -29,7 +29,8 @@
       "expo-font",
       "expo-head",
       "expo-splash-screen",
-      ["expo-camera", { "cameraPermission": "Allow Nutrition to scan barcodes." }]
+      ["expo-camera", { "cameraPermission": "Allow Nutrition to scan barcodes." }],
+      "./plugins/withoutPushEntitlement.js"
     ]
   }
 }
